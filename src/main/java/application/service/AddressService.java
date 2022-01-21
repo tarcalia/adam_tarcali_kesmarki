@@ -4,6 +4,7 @@ import application.domain.Address;
 import application.domain.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for {@link Address} related operations.
@@ -15,7 +16,7 @@ public interface AddressService {
      * @param addressId is the address's id which will be searched for.
      * @return Address if exists.
      */
-    Address getAddress(Integer addressId);
+    Optional<Address> getAddress(Integer addressId);
 
     /**
      * Return uploaded addresses from the database.

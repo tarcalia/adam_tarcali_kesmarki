@@ -1,6 +1,5 @@
 package application.service;
 
-
 /**
  * Interface for input operations.
  */

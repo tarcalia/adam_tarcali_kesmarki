@@ -3,7 +3,12 @@ package application.domain;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Objects;
 
 /**
@@ -58,12 +63,12 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(addressId, address.addressId) && Objects.equals(addressName, address.addressName);
+        return Objects.equals(addressId, address.addressId) && Objects.equals(addressName, address.addressName) && Objects.equals(personId, address.personId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressId, addressName);
+        return Objects.hash(addressId, addressName, personId);
     }
 
     @Override
@@ -71,6 +76,7 @@ public class Address {
         return "Address{" +
                 "addressId=" + addressId +
                 ", addressName='" + addressName + '\'' +
+                ", personId=" + personId +
                 '}';
     }
 }

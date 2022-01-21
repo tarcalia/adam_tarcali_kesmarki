@@ -3,7 +3,12 @@ package application.domain;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Objects;
 
 /**
@@ -58,19 +63,20 @@ public class Contact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(contactId, contact.contactId) && Objects.equals(phoneNumber, contact.phoneNumber);
+        return Objects.equals(contactId, contact.contactId) && Objects.equals(phoneNumber, contact.phoneNumber) && Objects.equals(addressId, contact.addressId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactId, phoneNumber);
+        return Objects.hash(contactId, phoneNumber, addressId);
     }
 
     @Override
     public String toString() {
         return "Contact{" +
                 "contactId=" + contactId +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", addressId=" + addressId +
                 '}';
     }
 }

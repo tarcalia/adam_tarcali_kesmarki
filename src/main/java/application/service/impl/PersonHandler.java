@@ -2,11 +2,12 @@ package application.service.impl;
 
 import application.domain.Person;
 import application.repository.PersonRepository;
+import application.service.InputService;
 import application.service.PersonService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Service class to handle {@link Person} related operations.
@@ -14,17 +15,19 @@ import java.util.NoSuchElementException;
 @Service
 public class PersonHandler implements PersonService {
     PersonRepository personRepository;
+    InputService inputService;
 
-    public PersonHandler(PersonRepository personRepository) {
+    public PersonHandler(PersonRepository personRepository, InputService inputService) {
         this.personRepository = personRepository;
+        this.inputService = inputService;
     }
 
     @Override
-    public Person getPerson(Integer personId) {
+    public Optional<Person> getPerson(Integer personId) {
         if (personRepository.findById(personId).isPresent()) {
-            return personRepository.findById(personId).get();
+            return Optional.of(personRepository.findById(personId).get());
         } else {
-            throw new NoSuchElementException("No person with this id found");
+            return Optional.empty();
         }
     }
 
@@ -35,19 +38,38 @@ public class PersonHandler implements PersonService {
 
     @Override
     public void addPerson(String name) {
-        personRepository.save(new Person(name));
-
+        if (name == null) {
+            System.out.println("Person name cannot be null");
+            addPerson(inputService.getStringInput());
+        } else {
+            personRepository.save(new Person(name));
+        }
     }
 
     @Override
     public void modifyPerson(Integer id, String name) {
-        Person tempPerson = getPerson(id);
-        tempPerson.setPersonName(name);
-        personRepository.save(tempPerson);
+        if (id == null || name == null) {
+            System.out.println("Null parameter given");
+        }
+        Optional<Person> tempPerson = getPerson(id);
+        if (tempPerson.isEmpty()) {
+            System.out.println("No person found");
+        } else {
+            Person existingPerson = tempPerson.get();
+            existingPerson.setPersonName(name);
+            personRepository.save(existingPerson);
+        }
     }
 
     @Override
     public void deletePerson(Integer id) {
-        personRepository.delete(getPerson(id));
+        if (id == null) {
+            System.out.println("Null parameter given");
+        }
+        if (getPerson(id).isEmpty()) {
+            System.out.println("No person found");
+        } else {
+            personRepository.delete(getPerson(id).get());
+        }
     }
 }

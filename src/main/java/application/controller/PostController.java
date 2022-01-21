@@ -1,15 +1,19 @@
 package application.controller;
 
+import application.domain.Address;
+import application.domain.Person;
 import application.service.AddressService;
 import application.service.ContactService;
 import application.service.InputService;
 import application.service.PersonService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
- * Controller for POST operations with database.
+ * Service for POST operations with database.
  */
-@Controller
+@Service
 public class PostController {
     private final String SUCCESS = "Uploaded successfully";
     private InputService inputService;
@@ -25,11 +29,16 @@ public class PostController {
     }
 
     public void uploadElement(Integer userAnswer) {
-        switch (userAnswer) {
-            case 1 -> addPerson();
-            case 2 -> addAddress();
-            case 3 -> addContact();
-            case 4 -> System.out.println("Cancelling upload process");
+        if (userAnswer == null) {
+            System.out.println("Value cannot be null");
+            uploadElement(inputService.getNumericInput());
+        } else {
+            switch (userAnswer) {
+                case 1 -> addPerson();
+                case 2 -> addAddress();
+                case 3 -> addContact();
+                case 4 -> System.out.println("Cancelling upload process");
+            }
         }
     }
 
@@ -43,16 +52,28 @@ public class PostController {
         System.out.println("Give address");
         String tempAddress = inputService.getStringInput();
         System.out.println("Give person id where this address belongs to:");
-        addressService.addAddress(personService.getPerson(inputService.getNumericInput()), tempAddress);
-        System.out.println(SUCCESS);
+        Optional<Person> tempPerson = personService.getPerson(inputService.getNumericInput());
+        if (tempPerson.isPresent()) {
+            addressService.addAddress(tempPerson.get(), tempAddress);
+            System.out.println(SUCCESS);
+        } else {
+            System.out.println("failed to make request");
+        }
+
     }
 
     private void addContact() {
         System.out.println("Give phone number");
         Integer tempContact = inputService.getNumericInput();
         System.out.println("Give address id where this contact belongs to:");
-        contactService.addContact(addressService.getAddress(inputService.getNumericInput()), tempContact);
-        System.out.println(SUCCESS);
+        Optional<Address> tempAddress = addressService.getAddress(inputService.getNumericInput());
+        if (tempAddress.isPresent()) {
+            contactService.addContact(tempAddress.get(), tempContact);
+            System.out.println(SUCCESS);
+        } else {
+            System.out.println("failed to make request");
+        }
+
     }
 
 }

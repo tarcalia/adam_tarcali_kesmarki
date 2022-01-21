@@ -3,6 +3,7 @@ package application.service;
 import application.domain.Person;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for {@link Person} related operations.
@@ -14,11 +15,11 @@ public interface PersonService {
      * @param personId is the person's id which will be searched for.
      * @return Person if exists.
      */
-    Person getPerson(Integer personId);
+    Optional<Person> getPerson(Integer personId);
 
     /**
      * Return a list of Uploaded persons;
-     * @return
+     * @return a list of persons.
      */
     List<Person> getUploadedPersons();
 

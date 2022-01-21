@@ -1,14 +1,14 @@
 package application.controller;
 
 import application.service.InputService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
 /**
  * Main controller for the application.
  */
-@Controller
+@Service
 public class UserController {
     private boolean answer = true;
     private InputService inputService;
@@ -25,35 +25,40 @@ public class UserController {
         this.getController = getController;
     }
 
-    public void startApplication() {
+    public boolean startApplication() {
         showMainOptions();
-        do {
+        while (answer){
             handleInput(inputService.getNumericInput());
             showMainOptions();
-        } while (answer);
-
+        }
+        return true;
     }
 
     public void handleInput(Integer userAnswer) {
-        switch (userAnswer) {
-            case 1 -> {
-                showQueryOptions();
-                getController.getQuery(inputService.getNumericInput());
-            }
-            case 2 -> {
-                showOptionsForElements();
-                postController.uploadElement(inputService.getNumericInput());
-            }
-            case 3 -> {
-                showOptionsForElements();
-                putController.modifyElement(inputService.getNumericInput());
-            }
-            case 4 -> {
-                showOptionsForElements();
-                deleteController.deleteElement(inputService.getNumericInput());
-            }
-            case 5 -> {
-                answer = false;
+        if (userAnswer == null) {
+            System.out.println("Value cannot be null");
+            handleInput(inputService.getNumericInput());
+        } else {
+            switch (userAnswer) {
+                case 1 -> {
+                    showQueryOptions();
+                    getController.getQuery(inputService.getNumericInput());
+                }
+                case 2 -> {
+                    showOptionsForElements();
+                    postController.uploadElement(inputService.getNumericInput());
+                }
+                case 3 -> {
+                    showOptionsForElements();
+                    putController.modifyElement(inputService.getNumericInput());
+                }
+                case 4 -> {
+                    showOptionsForElements();
+                    deleteController.deleteElement(inputService.getNumericInput());
+                }
+                case 5 -> {
+                    answer = false;
+                }
             }
         }
     }

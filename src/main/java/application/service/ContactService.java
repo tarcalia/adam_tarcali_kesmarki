@@ -4,6 +4,7 @@ import application.domain.Address;
 import application.domain.Contact;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for {@link Contact} related operations.
@@ -15,7 +16,7 @@ public interface ContactService {
      * @param contactID is the contact's id which will be searched for.
      * @return Contact if exists.
      */
-    Contact getContact(Integer contactID);
+    Optional<Contact> getContact(Integer contactID);
 
     /**
      * Get uploaded contacts
@@ -25,7 +26,7 @@ public interface ContactService {
 
     /**
      * Save a {@link Contact} entity to database.
-     * @param contact will be the name of the entity
+     * @param contact will be the phone number of the entity
      * @param addressId represent which address it belongs.
      */
     void addContact(Address addressId, Integer contact);

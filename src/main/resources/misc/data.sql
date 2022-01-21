@@ -1,0 +1,11 @@
+INSERT INTO person (person_name) VALUES ('Sample Person');
+INSERT INTO person (person_name) VALUES ('Sample Person 2');
+INSERT INTO address (address_name, person_id_person_id) VALUES ('Sample Address 1', 1);
+INSERT INTO address (address_name, person_id_person_id) VALUES ('Sample Address 2', 1);
+INSERT INTO address (address_name, person_id_person_id) VALUES ('Sample Address 3', 2);
+INSERT INTO address (address_name, person_id_person_id) VALUES ('Sample Address 4', 2);
+INSERT INTO contact (phone_number, address_id_address_id) VALUES ( 301234567, 1);
+INSERT INTO contact (phone_number, address_id_address_id) VALUES ( 201234567, 1);
+INSERT INTO contact (phone_number, address_id_address_id) VALUES ( 701234577, 1);
+INSERT INTO contact (phone_number, address_id_address_id) VALUES ( 207654431, 2);
+INSERT INTO contact (phone_number, address_id_address_id) VALUES ( 707654321, 2);

@@ -33,6 +33,9 @@ public class SearchHandler implements SearchService {
 
     @Override
     public List<Object> search(String criteria) {
+        if (criteria == null) {
+            criteria = "";
+        }
         Set<Object> result = new HashSet<>();
         if (inputService.isNumeric(criteria)) {
             result.addAll(contactRepository.findContactByPhoneNumber(criteria));

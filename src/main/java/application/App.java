@@ -21,5 +21,6 @@ public class App implements CommandLineRunner {
     public void run(String... args) {
         UserController userController = context.getBean(UserController.class);
         userController.startApplication();
+        SpringApplication.exit(context);
     }
 }
